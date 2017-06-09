@@ -102,7 +102,10 @@ namespace Microsoft.IdentityModel.Tokens.Saml
                 throw LogHelper.LogExceptionMessage(new ArgumentException("SAMLAssertionRequireOneStatement"));
         }
 
-        //   public SecurityKey SecurityKey { get; set; }
+        /// <summary>
+        /// Get the <see cref="SecurityKey"/>.
+        /// </summary>
+        public SecurityKey SecurityKey { get; set; }
 
         /// <summary>
         /// Gets the minor version of this assertion. [Saml, 2.3.2]

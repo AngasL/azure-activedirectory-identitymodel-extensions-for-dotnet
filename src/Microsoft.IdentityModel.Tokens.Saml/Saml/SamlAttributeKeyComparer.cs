@@ -31,6 +31,7 @@ using Microsoft.IdentityModel.Logging;
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
+#pragma warning disable 1591
     /// <summary>
     /// Comparison class supporting multi-part keys for a dicitionary
     /// </summary>
@@ -123,4 +124,5 @@ namespace Microsoft.IdentityModel.Tokens.Saml
 
         #endregion
     };
+#pragma warning restore 1591
 }

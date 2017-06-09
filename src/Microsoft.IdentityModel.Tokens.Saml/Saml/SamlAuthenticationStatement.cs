@@ -32,6 +32,8 @@ using Microsoft.IdentityModel.Logging;
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
+#pragma warning disable 1591
+
     public class SamlAuthenticationStatement : SamlSubjectStatement
     {
         private DateTime _authenticationInstant = DateTime.UtcNow.ToUniversalTime();
@@ -115,4 +117,6 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         //    claims.Add(new Claim(ClaimTypes.Authentication, new SamlAuthenticationClaimResource(this.authenticationInstant, this.authenticationMethod, this.dnsAddress, this.ipAddress, this.authorityBindings), Rights.PossessProperty));
         //}
     }
+
+#pragma warning restore 1591
 }

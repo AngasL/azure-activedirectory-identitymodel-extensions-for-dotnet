@@ -32,12 +32,20 @@ using Microsoft.IdentityModel.Logging;
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
+    /// <summary>
+    /// Represents the Subject element specified in [Saml2Core, 2.4.2.1].
+    /// </summary>
+    /// <remarks>
+    /// If the NameId is null and the SubjectConfirmations collection is empty,
+    /// an InvalidOperationException will be thrown during serialization.
+    /// </remarks>
     public class SamlSubject
     {
+#pragma warning disable 1591
         // Saml SubjectConfirmation parts.
         Collection<string> _confirmationMethods = new Collection<string>();
         string _confirmationData;
-        SecurityKeyIdentifier _securityKeyIdentifier;
+       // SecurityKeyIdentifier _securityKeyIdentifier;
         SecurityKey _crypto;
 
         // Saml NameIdentifier element parts.
@@ -51,7 +59,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         }
 
         public SamlSubject(string nameFormat, string nameQualifier, string name)
-            : this(nameFormat, nameQualifier, name, null, null, null)
+            : this(nameFormat, nameQualifier, name, null, null/*, null*/)
         {
         }
 
@@ -60,8 +68,8 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             string nameQualifier,
             string name,
             IEnumerable<string> confirmations,
-            string confirmationData,
-            SecurityKeyIdentifier securityKeyIdentifier)
+            string confirmationData)
+            //SecurityKeyIdentifier securityKeyIdentifier)
         {
             if (confirmations != null)
             {
@@ -77,14 +85,14 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             if ((_confirmationMethods.Count == 0) && (string.IsNullOrEmpty(name)))
                 throw LogHelper.LogExceptionMessage(new SamlSecurityTokenException("SAMLSubjectRequiresNameIdentifierOrConfirmationMethod"));
 
-            if ((_confirmationMethods.Count == 0) && ((confirmationData != null) || (securityKeyIdentifier != null)))
+            if ((_confirmationMethods.Count == 0) && ((confirmationData != null) /*|| (securityKeyIdentifier != null)*/))
                 throw LogHelper.LogExceptionMessage(new SamlSecurityTokenException("SAMLSubjectRequiresConfirmationMethodWhenConfirmationDataOrKeyInfoIsSpecified"));
 
             _name = name;
             _nameFormat = nameFormat;
             _nameQualifier = nameQualifier;
             _confirmationData = confirmationData;
-            _securityKeyIdentifier = securityKeyIdentifier;
+          //  _securityKeyIdentifier = securityKeyIdentifier;
         }
 
         public string Name
@@ -139,17 +147,17 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             }
         }
 
-        public SecurityKeyIdentifier KeyIdentifier
-        {
-            get { return _securityKeyIdentifier; }
-            set
-            {
-                if (value == null)
-                    throw LogHelper.LogArgumentNullException(nameof(value));
+        //public SecurityKeyIdentifier KeyIdentifier
+        //{
+        //    get { return _securityKeyIdentifier; }
+        //    set
+        //    {
+        //        if (value == null)
+        //            throw LogHelper.LogArgumentNullException(nameof(value));
 
-                _securityKeyIdentifier = value;
-            }
-        }
+        //        _securityKeyIdentifier = value;
+        //    }
+        //}
 
         // TODO - surface here or from assertion / token
         public SecurityKey Key
@@ -169,7 +177,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             if ((_confirmationMethods.Count == 0) && (string.IsNullOrEmpty(_name)))
                 throw LogHelper.LogExceptionMessage(new SamlSecurityTokenException("SAMLSubjectRequiresNameIdentifierOrConfirmationMethod"));
 
-            if ((_confirmationMethods.Count == 0) && ((_confirmationData != null) || (_securityKeyIdentifier != null)))
+            if ((_confirmationMethods.Count == 0) && ((_confirmationData != null) /*|| (_securityKeyIdentifier != null)*/))
                 throw LogHelper.LogExceptionMessage(new SamlSecurityTokenException("SAMLSubjectRequiresConfirmationMethodWhenConfirmationDataOrKeyInfoIsSpecified"));
         }
 
@@ -228,5 +236,6 @@ namespace Microsoft.IdentityModel.Tokens.Saml
 
         //    return this.subjectKeyClaimset;
         //}
+#pragma warning restore 1591
     }
 }

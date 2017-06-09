@@ -59,6 +59,8 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         internal const string IDX11117 = "IDX11117: Unable to read for SamlSecurityToken. MinorVersion must be '1' was: '{0}'.";
         internal const string IDX11118 = "IDX11118: Unable to read condition : '{0}'. SamlSecurityToken only support AudienceRestrictionCondition and DoNotCacheCondition.";
         internal const string IDX11119 = "IDX11119: Unable to read for SamlSecurityToken. Element: '{0}' as missing element: '{1}' when reading element: '{2}'.";
+        internal const string IDX11120 = "IDX11120: Unable to read for SamlSecurityToken. Element: '{0}' doesn't contain element: '{1}'.";
+       // internal const string IDX11120 = "IDX11120: Unable to read SamlSecurityToken. Expecting XmlReader to be at element: '{0}', found 'Empty Element'";
 
 #pragma warning restore 1591
     }

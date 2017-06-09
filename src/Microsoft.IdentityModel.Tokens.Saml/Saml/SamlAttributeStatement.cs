@@ -31,6 +31,7 @@ using Microsoft.IdentityModel.Logging;
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
+#pragma warning disable 1591
     public class SamlAttributeStatement : SamlSubjectStatement
     {
         private Collection<SamlAttribute> _attributes = new Collection<SamlAttribute>();
@@ -81,4 +82,5 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         //    }
         //}
     }
+#pragma warning restore 1591
 }

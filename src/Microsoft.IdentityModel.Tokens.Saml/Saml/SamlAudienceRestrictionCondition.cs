@@ -32,7 +32,9 @@ using Microsoft.IdentityModel.Logging;
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
-
+    /// <summary>
+    /// Represents the AudienceRestrictionCondition specified in [Saml, 2.3.2.1.3].
+    /// </summary>
     public class SamlAudienceRestrictionCondition : SamlCondition
     {
         // TODO - should this be strings?
@@ -43,6 +45,10 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         {
         }
 
+        /// <summary>
+        /// Creates an instance of SamlAudienceRestrictionCondition.
+        /// </summary>
+        /// <param name="audiences">The audience elements contained in this restriction.</param>
         public SamlAudienceRestrictionCondition(IEnumerable<Uri> audiences)
         {
             if (audiences == null)
@@ -60,6 +66,9 @@ namespace Microsoft.IdentityModel.Tokens.Saml
                 throw LogHelper.LogExceptionMessage(new SamlSecurityTokenException("SAMLAudienceRestrictionShouldHaveOneAudience"));
         }
 
+        /// <summary>
+        /// Gets the audiences for which the assertion is addressed.
+        /// </summary>
         public ICollection<Uri> Audiences
         {
             get { return _audiences; }

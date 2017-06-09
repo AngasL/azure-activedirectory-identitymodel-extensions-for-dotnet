@@ -63,11 +63,11 @@ namespace Microsoft.IdentityModel.Tokens.Saml
 
 #if DESKTOPNET45
         /// <summary>
-        /// Initializes a new instance of the <see cref="Saml2SecurityTokenReadException"/> class.
+        /// Initializes a new instance of the <see cref="SamlSecurityTokenReadException"/> class.
         /// </summary>
         /// <param name="info">the <see cref="SerializationInfo"/> that holds the serialized object data.</param>
         /// <param name="context">The contextual information about the source or destination.</param>
-        protected Saml2SecurityTokenReadException(SerializationInfo info, StreamingContext context)
+        protected SamlSecurityTokenReadException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {}
 #endif

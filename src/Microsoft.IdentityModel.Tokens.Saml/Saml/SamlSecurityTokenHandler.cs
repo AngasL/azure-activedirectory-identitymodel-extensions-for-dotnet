@@ -43,7 +43,7 @@ using TokenLogMessages = Microsoft.IdentityModel.Tokens.LogMessages;
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
     /// <summary>
-    /// A derived <see cref="System.IdentityModel.Tokens.Saml.SamlSecurityTokenHandler"/> that implements ISecurityTokenValidator,
+    /// A <see cref="SecurityTokenHandler"/> designed for creating and validating Saml Tokens,
     /// which supports validating tokens passed as strings using <see cref="TokenValidationParameters"/>.
     /// </summary>
     ///
@@ -181,10 +181,10 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         }
 
         /// <summary>
-        /// Reads the string as XML and looks for the an element <see cref="SamlConstants.Assertion"/> with namespace <see cref="SamlConstants.Saml11Namespace"/>.
+        /// Reads the string as XML and looks for the an element <see cref="SamlConstants.Elements.Assertion"/> with namespace <see cref="SamlConstants.Saml11Namespace"/>.
         /// </summary>
         /// <param name="securityToken">The securitytoken.</param>
-        /// <returns><see cref="XmlDictionaryReader.IsStartElement"/> (<see cref="SamlConstants.Assertion"/>, <see cref="SamlConstants.Saml11Namespace"/>).</returns>
+        /// <returns><see cref="XmlDictionaryReader.IsStartElement"/> (<see cref="SamlConstants.Elements.Assertion"/>, <see cref="SamlConstants.Saml11Namespace"/>).</returns>
         public override bool CanReadToken(string securityToken)
         {
             if (string.IsNullOrWhiteSpace(securityToken) || securityToken.Length > MaximumTokenSizeInBytes)
@@ -211,7 +211,6 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         /// Creates claims from a Saml securityToken.
         /// </summary>
         /// <param name="samlToken">A <see cref="SamlSecurityToken"/> that will be used to create the claims.</param>
-        /// <param name="issuer">The issuer value for each <see cref="Claim"/> in the <see cref="ClaimsIdentity"/>.</param>
         /// <param name="validationParameters"> Contains parameters for validating the securityToken.</param>
         /// <returns>A <see cref="ClaimsIdentity"/> containing the claims from the <see cref="SamlSecurityToken"/>.</returns>
         protected virtual ClaimsIdentity CreateClaimsIdentity(SamlSecurityToken samlToken, TokenValidationParameters validationParameters)
@@ -424,7 +423,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
                                 writer.WriteStartElement(Actor);
                                 actorElementWritten = true;
                             }
-                            Serializer.WriteAttribute(writer, samlAttribute);
+                       //     Serializer.WriteAttribute(writer, samlAttribute);
                         }
                     }
 
@@ -803,6 +802,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         /// </summary>
         /// <param name="reader">An XML reader positioned at the token's start 
         /// element.</param>
+        /// <param name="validationParameters"> validation parameters for the <see cref="SamlSecurityToken"/>.</param>
         /// <returns>An instance of <see cref="SamlSecurityToken"/>.</returns>
         public override SecurityToken ReadToken(XmlReader reader, TokenValidationParameters validationParameters)
         {
@@ -995,7 +995,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
                 throw LogHelper.LogArgumentNullException(nameof(samlSecurityToken.Assertion));
 
             var envelopedWriter = new EnvelopedSignatureWriter(writer, samlSecurityToken.Assertion.SigningCredentials, Guid.NewGuid().ToString());
-            Serializer.WriteToken(envelopedWriter, samlSecurityToken);
+           // Serializer.WriteToken(envelopedWriter, samlSecurityToken);
         }
     }
 }

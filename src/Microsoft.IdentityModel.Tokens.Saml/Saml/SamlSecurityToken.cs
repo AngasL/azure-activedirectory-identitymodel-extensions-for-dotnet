@@ -30,17 +30,32 @@ using Microsoft.IdentityModel.Logging;
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
+#pragma warning disable 1591
+    /// <summary>
+    /// A security token backed by a SAML assertion.
+    /// </summary>
     public class SamlSecurityToken : SecurityToken
     {
         SamlAssertion _assertion;
 
+        /// <summary>
+        /// Initializes an instance of <see cref="SamlSecurityToken"/> from a <see cref="SamlSecurityToken"/>.
+        /// </summary>
         protected SamlSecurityToken() { }
 
+        /// <summary>
+        /// Initializes an instance of <see cref="SamlSecurityToken"/> from a <see cref="SamlSecurityToken"/>.
+        /// </summary>
+        /// <param name="assertion">A <see cref="SamlAssertion"/> to initialize from.</param>
         public SamlSecurityToken(SamlAssertion assertion)
         {
             Initialize(assertion);
         }
 
+        /// <summary>
+        /// Initializes an instance of <see cref="SamlSecurityToken"/> from a <see cref="SamlSecurityToken"/>.
+        /// </summary>
+        /// <param name="assertion">A <see cref="SamlAssertion"/> to initialize from.</param>
         protected void Initialize(SamlAssertion assertion)
         {
             if (assertion == null)
@@ -49,11 +64,17 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             _assertion = assertion;
         }
 
+        /// <summary>
+        /// Gets the SecurityToken id.
+        /// </summary>
         public override string Id
         {
             get { return _assertion.AssertionId; }
         }
 
+        /// <summary>
+        /// Gets the collection of <see cref="SecurityKey"/> contained in this token.
+        /// </summary>
         public override SecurityKey SecurityKey
         {
             get
@@ -114,4 +135,6 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             }
         }
     }
+
+#pragma warning restore 1591
 }

@@ -32,8 +32,12 @@ using Microsoft.IdentityModel.Logging;
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
+    /// <summary>
+    /// Represents the AuthorizationDecisionStatement specified in [Saml2Core, 2.4.5].
+    /// </summary>
     public class SamlAuthorizationDecisionStatement : SamlSubjectStatement
     {
+#pragma warning disable 1591
         private Collection<SamlAction> _actions = new Collection<SamlAction>();
         private string _resource;
 
@@ -42,6 +46,14 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SamlAuthorizationDecisionStatement"/> class from
+        /// a resource and decision.
+        /// </summary>
+        /// <param name="subject">The <see cref="SamlSubject"/> of the statement.</param>
+        /// <param name="resource">The resource to be authorized.</param>
+        /// <param name="accessDecision">The AccessDecision in use.</param>
+        /// <param name="actions">Collection of <see cref="SamlAction"/> specifications.</param>
         public SamlAuthorizationDecisionStatement(
             SamlSubject subject,
             string resource,
@@ -51,6 +63,15 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SamlAuthorizationDecisionStatement"/> class from
+        /// a resource and decision.
+        /// </summary>
+        /// <param name="subject">The <see cref="SamlSubject"/> of the statement.</param>
+        /// <param name="resource">The resource to be authorized.</param>
+        /// <param name="accessDecision">The AccessDecision in use.</param>
+        /// <param name="actions">Collection of <see cref="SamlAction"/> specifications.</param>
+        /// <param name="evidence">Collection of <see cref="SamlEvidence"/> specifications.</param>
         public SamlAuthorizationDecisionStatement(
             SamlSubject subject,
             string resource,
@@ -77,6 +98,9 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             CheckObjectValidity();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static string ClaimType
         {
             get
@@ -133,5 +157,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             if (_actions.Count == 0)
                 throw LogHelper.LogExceptionMessage(new SamlSecurityTokenException("SAMLAuthorizationDecisionShouldHaveOneAction"));
         }
+
+#pragma warning restore 1591
     }
 }

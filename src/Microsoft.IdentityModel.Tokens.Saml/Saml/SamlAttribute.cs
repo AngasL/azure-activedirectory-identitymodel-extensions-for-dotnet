@@ -33,6 +33,7 @@ using Microsoft.IdentityModel.Logging;
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
+#pragma warning disable 1591
     public class SamlAttribute
     {
         private string _name;
@@ -173,4 +174,5 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             return _claims.AsReadOnly();
         }
     }
+#pragma warning restore 1591
 }
