@@ -38,26 +38,53 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Tests
 {
     class SamlSecurityTokenReadTest
     {
+#pragma warning disable CS3016 // Arrays as attribute arguments is not CLS-compliant
+        [Theory, MemberData("SamlReadFromTheoryData")]
+#pragma warning restore CS3016 // Arrays as attribute arguments is not CLS-compliant
+        public void SamlSecurityTokenReadFrom(SamlSecurityTokenTheoryData theoryData)
+        {
+            TestUtilities.WriteHeader($"{this}.SamlSecurityTokenReadFrom", theoryData);
+            List<string> errors = new List<string>();
+            try
+            {
+                var sr = new StringReader(theoryData.SamlSecurityTokenTestSet.Xml);
+                var reader = XmlDictionaryReader.CreateDictionaryReader(XmlReader.Create(sr));
+                var samlSerializer = new SamlSerializer();
+                var samlSecurityToken = samlSerializer.ReadToken(reader);
+                theoryData.ExpectedException.ProcessNoException();
 
-        public static TheoryData<SamlTokenTheoryData> SamlReadFromTheoryData
+                Comparer.GetDiffs(samlSecurityToken, theoryData.SamlSecurityTokenTestSet.SamlSecurityToken, errors);
+            }
+            catch (Exception ex)
+            {
+                theoryData.ExpectedException.ProcessException(ex);
+            }
+
+            TestUtilities.AssertFailIfErrors(errors);
+        }
+
+        public static TheoryData<SamlSecurityTokenTheoryData> SamlReadFromTheoryData
         {
             get
             {
-                var theoryData = new TheoryData<SamlTokenTheoryData>();
+                var theoryData = new TheoryData<SamlSecurityTokenTheoryData>();
 
-                theoryData.Add(new SamlTokenTheoryData
+                theoryData.Add(new SamlSecurityTokenTheoryData
                 {
                     First = true,
-                //    SamlInfoTestSet = 
+                    SamlSecurityTokenTestSet = ReferenceXml.SamlSecurityTokenValid,
+                    TestId = nameof(ReferenceXml.SamlSecurityTokenValid)
                 });
+
+                return theoryData;
             }
         }
 
     }
 
-    public class SamlTokenTheoryData : TheoryDataBase
+    public class SamlSecurityTokenTheoryData : TheoryDataBase
     {
-       // public SamlInfoTestSet SamlInfoTestSet { get; set; }
+        public SamlSecurityTokenTestSet SamlSecurityTokenTestSet { get; set; }
         //   public KeyInfoTestSet KeyInfoTestSet { get; set; }
 
         //  public SignatureTestSet SignatureTestSet { get; set; }

@@ -31,6 +31,7 @@ using System.Collections.ObjectModel;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.IdentityModel.Protocols.WsFederation;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Tokens.Saml;
 using Microsoft.IdentityModel.Xml;
 
 namespace Microsoft.IdentityModel.Tests
@@ -936,83 +937,71 @@ namespace Microsoft.IdentityModel.Tests
             }
         }
 
-    public static SamlInfoTestSet SamlInfoValid
+    public static SamlSecurityTokenTestSet SamlSecurityTokenValid
         {
         get
         {
-                Collection<string> audience = new Collection<string>();
-                audience.Add("http://default.audience.com/");
+                string ns = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims";
 
+                // Initialize AttributeStatement
                 Collection<SamlAttribute> attributes = new Collection<SamlAttribute>();
                 // Add attribute: AttributeName = "country", value = "USA"
                 Collection<string> attributeValues1 = new Collection<string>();
                 attributeValues1.Add("USA");
-                SamlAttribute attribute1 = new SamlAttribute
-                {
-                    Name = "country",
-                    Values = attributeValues1
-                };
+                SamlAttribute attribute1 = new SamlAttribute(ns, "country", attributeValues1);
                 attributes.Add(attribute1);
 
                 // Add attribute: AttributeName = "emailaddress", value = "Bob @contoso.com"
                 Collection<string> attributeValues2 = new Collection<string>();
                 attributeValues2.Add(@"Bob @contoso.com");
-                SamlAttribute attribute2 = new SamlAttribute
-                {
-                    Name = "emailaddress",
-                    Values = attributeValues2
-                };
+                SamlAttribute attribute2 = new SamlAttribute(ns, "emailaddress", attributeValues2);
                 attributes.Add(attribute2);
 
                 // Add attribute: AttributeName = "givenname", value = "Bob"
                 Collection<string> attributeValues3 = new Collection<string>();
                 attributeValues3.Add("Bob");
-                SamlAttribute attribute3 = new SamlAttribute
-                {
-                    Name = "givenname",
-                    Values = attributeValues3
-                };
+                SamlAttribute attribute3 = new SamlAttribute(ns, "givenname", attributeValues3);
                 attributes.Add(attribute3);
 
                 // Add attribute: AttributeName = "homephone", value = "555.1212"
                 Collection<string> attributeValues4 = new Collection<string>();
                 attributeValues4.Add("555.1212");
-                SamlAttribute attribute4 = new SamlAttribute
-                {
-                    Name = "homephone",
-                    Values = attributeValues4
-                };
+                SamlAttribute attribute4 = new SamlAttribute(ns, "homephone", attributeValues4);
                 attributes.Add(attribute4);
 
                 // Add attribute: AttributeName = "role", value = "Developer", "Sales", "role1", "roles1"
-                Collection<string> attributeValues4 = new Collection<string>();
+                Collection<string> attributeValues5 = new Collection<string>();
                 attributeValues4.Add("555.1212");
-                SamlAttribute attribute4 = new SamlAttribute
-                {
-                    Name = "roles",
-                    Values = attributeValues4
-                };
-                attributes.Add(attribute4);
+                SamlAttribute attribute5 = new SamlAttribute(ns, "roles", attributeValues5);
+                attributes.Add(attribute5);
+
+                SamlStatement attributeStatement = new SamlAttributeStatement(null, attributes);
+
+                Collection<SamlStatement> samlStatement = new Collection<SamlStatement>();
+                samlStatement.Add(attributeStatement);
+
+                string assertionID = "_b95759d0 - 73ae - 4072 - a140 - 567ade10a7ad";
+                string issuer = "http://Default.Issuer.com";
+                DateTime issueInstant = DateTime.Parse("2017 - 03 - 17T18: 33:37.095Z");
+
+                // Initialize conditions
+                Uri audience = new Uri("http://default.audience.com/");
+                Collection<Uri> audiences = new Collection<Uri>();
+                audiences.Add(audience);
+                SamlAudienceRestrictionCondition condition = new SamlAudienceRestrictionCondition(audiences);
+                Collection<SamlCondition> conditions = new Collection<SamlCondition>();
+                conditions.Add(condition);
+
+                DateTime notBefore = DateTime.Parse("2017-03-17T18:33:37.080Z");
+                DateTime notOnOrAfter = DateTime.Parse("2017 - 03 - 18T18: 33:37.080Z");
+                SamlConditions samlConditions = new SamlConditions(notBefore, notOnOrAfter, conditions);
+
+                SamlAssertion assertion = new SamlAssertion(assertionID, issuer, issueInstant, samlConditions, null, samlStatement);
 
                 return new SamlInfoTestSet
                 {
-                    SamlInfo = new SamlInfo
-                    {
-                        AssertionID = @"_b95759d0-73ae-4072-a140-567ade10a7ad",
-                    },
+                    SamlSecurityToken = new SamlSecurityToken(assertion),
                     Xml = RefrenceTokens.Saml1Token_1
-                //Xml = @"<SignedInfo xmlns=""http://www.w3.org/2000/09/xmldsig#"">
-                //        <CanonicalizationMethod Algorithm= ""http://www.w3.org/2001/10/xml-exc-c14n#"" />
-                //        <SignatureMethod Algorithm= """" />
-                //        <Reference URI= ""#091a00cc-4361-4303-9f1a-d4be45b2b84c"">
-                //            <Transforms>
-                //                <Transform Algorithm= ""http://www.w3.org/2000/09/xmldsig#enveloped-signature"" />
-                //                <Transform Algorithm= ""http://www.w3.org/2001/10/xml-exc-c14n#"" />
-                //            </Transforms>
-                //            <DigestMethod Algorithm= ""http://www.w3.org/2001/04/xmlenc#sha256"" />
-                //            <DigestValue>JaDhvSguu/XZ8jZmh7KmhbOr4deZB4/iL1adETm9oPc=</DigestValue>
-                //        </Reference>
-                //    </SignedInfo>"
             };
         }
     }

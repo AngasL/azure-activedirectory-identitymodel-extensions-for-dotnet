@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.IdentityModel.Protocols.WsFederation;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Tokens.Saml;
 using Microsoft.IdentityModel.Xml;
 
 namespace Microsoft.IdentityModel.Tests
@@ -59,9 +60,9 @@ namespace Microsoft.IdentityModel.Tests
         public string Xml { get; set; }
     }
 
-    public class SamlInfoTestSet
+    public class SamlSecurityTokenTestSet
     {
-        public SamlInfo SamlInfo { get; set; }
+      public SamlSecurityToken SamlSecurityToken { get; set; }
         public string Xml { get; set; }
     }
 

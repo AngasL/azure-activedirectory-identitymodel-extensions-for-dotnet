@@ -32,6 +32,7 @@ using Microsoft.IdentityModel.Logging;
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
+#pragma warning disable 1591
     public class SamlConditions
     {
         Collection<SamlCondition> _conditions = new Collection<SamlCondition>();
@@ -71,4 +72,6 @@ namespace Microsoft.IdentityModel.Tokens.Saml
 
         public DateTime NotOnOrAfter { get; set; } = DateTimeUtil.GetMaxValue(DateTimeKind.Utc);
     }
+
+#pragma warning restore 1591
 }

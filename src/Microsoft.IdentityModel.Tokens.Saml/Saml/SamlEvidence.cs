@@ -31,6 +31,7 @@ using Microsoft.IdentityModel.Logging;
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
+#pragma warning disable 1591
     public class SamlEvidence
     {
         Collection<string> _assertionIdReferences = new Collection<string>();
@@ -96,4 +97,6 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         //        throw LogHelper.LogExceptionMessage(new SamlSecurityTokenException("SAMLEvidenceShouldHaveOneAssertion"));
         //}
     }
+
+#pragma warning restore 1591
 }

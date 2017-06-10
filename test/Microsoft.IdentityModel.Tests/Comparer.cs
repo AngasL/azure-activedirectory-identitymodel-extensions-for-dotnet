@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.IdentityModel.Protocols.WsFederation;
+using Microsoft.IdentityModel.Tokens.Saml;
 using Microsoft.IdentityModel.Xml;
 
 namespace Microsoft.IdentityModel.Tests
@@ -209,5 +210,115 @@ namespace Microsoft.IdentityModel.Tests
                     diffs.Add($" WsFederationMessage.message2.Parameters.param.Value !=  message1.Parameters.param.Value: {param.Key}, {param.Value}, {value1}");
             }
         }
+
+        public static void GetDiffs(SamlSecurityToken saml1, SamlSecurityToken saml2, List<string> diffs)
+        {
+            if (saml1 == null && saml2 == null)
+                return;
+
+            if (saml1 == null && saml2 != null)
+            {
+                diffs.Add($" saml1 == null && saml2 != null");
+                return;
+            }
+
+            if (saml1 != null && saml2 == null)
+            {
+                diffs.Add($" saml1 != null && saml2 == null");
+                return;
+            }
+
+            GetDiffs(saml1.Assertion, saml2.Assertion, diffs);
+        }
+
+        public static void GetDiffs(SamlAssertion assertion1, SamlAssertion assertion2, List<string> diffs)
+        {
+            if (assertion1 == null && assertion2 == null)
+                return;
+
+            if (assertion1 == null && assertion2 != null)
+            {
+                diffs.Add($" assertion1 == null && saml2 != null");
+                return;
+            }
+
+            if (assertion1 != null && assertion2 == null)
+            {
+                diffs.Add($" assertion1 != null && assertion2 == null");
+                return;
+            }
+
+            var stringComparer = StringComparer.Ordinal;
+
+            if (!stringComparer.Equals(assertion1.AssertionId, assertion2.AssertionId))
+                diffs.Add($" SamlAssertion.AssertionId: {assertion1.AssertionId}, {assertion2.AssertionId}");
+
+            if (!DateTime.Equals(assertion1.IssueInstant, assertion2.IssueInstant))
+                diffs.Add($" SamlAssertion.IssueInstant: {assertion1.IssueInstant}, {assertion2.IssueInstant}");
+
+            if (!stringComparer.Equals(assertion1.Issuer, assertion2.Issuer))
+                diffs.Add($" SamlAssertion.Issuer: {assertion1.Issuer}, {assertion2.Issuer}");
+
+            if (assertion1.MajorVersion != assertion2.MajorVersion)
+                diffs.Add($" SamlAssertion.MajorVersion: {assertion1.MajorVersion}, {assertion2.MajorVersion}");
+
+            if (assertion1.MinorVersion != assertion2.MinorVersion)
+                diffs.Add($" SamlAssertion.MinorVersion: {assertion1.MinorVersion}, {assertion2.MinorVersion}");
+
+            GetDiffs(assertion1.Advice, assertion2.Advice, diffs);
+            GetDiffs(assertion1.Conditions, assertion2.Conditions, diffs);
+        }
+
+        public static void GetDiffs(SamlAdvice advice1, SamlAdvice advice2, List<string> diffs)
+        {
+            if (advice1 == null && advice2 == null)
+                return;
+
+            if (advice1 == null && advice2 != null)
+            {
+                diffs.Add($" advice1 == null && advice2 != null");
+                return;
+            }
+
+            if (advice1 != null && advice2 == null)
+            {
+                diffs.Add($" advice1 != null && advice2 == null");
+                return;
+            }
+
+            if (advice1.AssertionIdReferences.Count != advice2.AssertionIdReferences.Count)
+                diffs.Add($" SamlAdvice.AssertionIdReferences.Count: {advice1.AssertionIdReferences.Count}, {advice2.AssertionIdReferences.Count}");
+
+            if (advice1.Assertions.Count != advice2.Assertions.Count)
+                diffs.Add($" SamlAdvice.Assertions.Count: {advice1.Assertions.Count}, {advice2.Assertions.Count}");
+
+            foreach (var idReference in advice1.AssertionIdReferences)
+            {
+                if (!advice2.AssertionIdReferences.Contains(idReference))
+                    diffs.Add($" {idReference} in Advice.AssertionIdReferences missing in advice2.AssertionIdReferences.");
+            }
+
+            foreach (var idReference in advice2.AssertionIdReferences)
+            {
+                if (!advice1.AssertionIdReferences.Contains(idReference))
+                    diffs.Add($" {idReference} in Advice.AssertionIdReferences missing in advice1.AssertionIdReferences.");
+            }
+
+            foreach (var assertion in advice1.Assertions)
+            {
+                if (!advice2.Assertions.Contains(assertion))
+                    diffs.Add($" {assertion} in Advice.Assertions missing in advice2.Assertions.");
+            }
+
+            foreach (var assertion in advice2.Assertions)
+            {
+                if (!advice1.Assertions.Contains(assertion))
+                    diffs.Add($" {assertion} in Advice.Assertions missing in advice1.Assertions.");
+            }
+        }
+
+        public static void GetDiffs(SamlConditions conditions1, SamlConditions conditions2, List<string> diffs)
+        { }
+
     }
 }

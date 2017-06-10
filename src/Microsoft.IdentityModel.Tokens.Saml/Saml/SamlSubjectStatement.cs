@@ -29,6 +29,7 @@ using Microsoft.IdentityModel.Logging;
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
+#pragma warning disable 1591
     public abstract class SamlSubjectStatement : SamlStatement
     {
         protected SamlSubjectStatement() { }
@@ -43,4 +44,6 @@ namespace Microsoft.IdentityModel.Tokens.Saml
 
         public virtual SamlSubject Subject { get; set; }
     }
+
+#pragma warning restore 1591
 }

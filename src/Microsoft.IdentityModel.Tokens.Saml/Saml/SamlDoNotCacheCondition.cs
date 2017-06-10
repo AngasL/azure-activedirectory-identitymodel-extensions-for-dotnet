@@ -27,8 +27,14 @@
 
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
+    /// <summary>
+    /// saml DoNotCacheCondition
+    /// </summary>
     public class SamlDoNotCacheCondition : SamlCondition
     {
+        /// <summary>
+        /// Initializes an instance of <see cref="SamlDoNotCacheCondition"/>.
+        /// </summary>
         public SamlDoNotCacheCondition()
         {
         }

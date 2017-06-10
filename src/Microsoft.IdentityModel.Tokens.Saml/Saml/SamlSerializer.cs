@@ -86,7 +86,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
                 throw LogReadException(LogMessages.IDX11112, ex, SamlConstants.Elements.Action, ex);
             }
         }
-        
+
         ///// <summary>
         ///// Reads a &lt;saml:Assertion> element.
         ///// </summary>
@@ -161,7 +161,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
 
         //         <Subject> 0-1
         //        if (envelopeReader.IsStartElement(SamlConstants.Elements.subject, Saml2Constants.Namespace))
-        //            assertion.Subject = ReadSubject(envelopeReader);             
+        //            assertion.Subject = ReadSubject(envelopeReader); 
 
         //         <Statement|AuthenticationStatement|AuthorizationDecisionStatement|AttributeStatement>, 0-OO
         //        while (envelopeReader.IsStartElement())
